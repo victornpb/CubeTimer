@@ -1,0 +1,1008 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cube Timer</title>
+<link href="display.css" rel="stylesheet"/>
+<link href="timer.css" rel="stylesheet"/>
+<script src="keystrokes.js" type="text/javascript"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+<style type="text/css">
+window,body{
+	margin: 10px;
+	font-family:Arial, Helvetica, sans-serif;
+	text-align:center;
+	margin-bottom: 250px;
+	
+	background-color:#039;
+	background-image:url(purty_wood.png);
+}
+
+body{
+	position:fixed;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	z-index:0;
+	
+	background: #2b519c;
+	background: -moz-linear-gradient(-45deg,  #2b519c 0%, #6c95cb 30%, #2b358a 70%, #4b5eab 100%);
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#2b519c), color-stop(30%,#6c95cb), color-stop(70%,#2b358a), color-stop(100%,#4b5eab));
+	background: -webkit-linear-gradient(-45deg,  #2b519c 0%,#6c95cb 30%,#2b358a 70%,#4b5eab 100%);
+	background: -o-linear-gradient(-45deg,  #2b519c 0%,#6c95cb 30%,#2b358a 70%,#4b5eab 100%);
+	background: -ms-linear-gradient(-45deg,  #2b519c 0%,#6c95cb 30%,#2b358a 70%,#4b5eab 100%);
+	background: linear-gradient(135deg,  #2b519c 0%,#6c95cb 30%,#2b358a 70%,#4b5eab 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2b519c', endColorstr='#4b5eab',GradientType=1 );
+}
+
+@font-face{ 
+	font-family: "DSDIGI";
+	src: url('http://fontsforweb.com/public/fonts/1091/DSDIGI.eot');
+	src: local("DS-Digital"), url('http://fontsforweb.com/public/fonts/1091/DSDIGI.ttf') format("truetype");
+}
+
+.fontsforweb_fontid_1091 {
+	font-family: "DSDIGI";
+}
+  
+@font-face{ 
+	font-family: "LCD2U";
+	src: url('http://fontsforweb.com/public/fonts/525/LCD2U.eot');
+	src: local("LCD2 Ultra"), url('http://fontsforweb.com/public/fonts/525/LCD2U.ttf') format("truetype");
+}
+
+.fontsforweb_fontid_525 {
+	font-family: "LCD2U";
+}
+
+.a{
+	box-shadow:
+	0px -2px 0px rgba(255,255,255,0.25),
+	inset 0px 3px 2px rgba(0,0,0,0.25),
+	inset 0px -3px 2px rgba(0,0,0,1);
+	
+	border:1px solid #86A0B1;
+	box-shadow: inset 0px -50px 100px rgba(0,0,0,0.25);
+}
+
+
+.flip-h {
+	-moz-transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+	-o-transform: scaleX(-1);
+	transform: scaleX(-1);
+	-ms-filter: fliph; /*IE*/
+	filter: fliph; /*IE*/
+}
+.flip-v {
+    -moz-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    transform: scaleY(-1);
+    -ms-filter: flipv; /*IE*/
+    filter: flipv; /*IE*/
+}
+
+.led{
+	width: 10px;
+	height: 10px;
+
+	border-radius: 12px;
+	border: 2px outset rgba(0,0,0,0.5);
+	box-shadow: 
+				inset 0px -1px 3px rgba(0,0,0,0.5),
+				inset 0px 3px 3px rgba(255,255,255,0.0),
+				0px -1px 1px rgba(255,255,255,0.5),
+				0px 1px 1px rgba(0,0,0,0.5);
+}
+
+.led.red{
+	background-color:#400;
+}
+.led.red.on{
+	background-color:#F44;
+}
+
+.led.green{
+	background-color:#040;
+}
+.led.green.on{
+	background-color:#4F4;
+}
+
+
+.buttonbevel{
+	box-shadow: inset 0px 6px 2px rgba(255,255,255,0.2),/*top shadow*/
+				inset 0px -6px 8px rgba(0,0,0,0.5),		/*bottom shadow*/
+				0px -2px 1px rgba(255,255,255,0.5),/*top shadow*/
+				0px 2px 1px rgba(0,0,0,0.5);
+
+	border-radius: 100%;
+	text-align:center;
+	
+	color: #C1BFB4;
+}
+
+
+.hand path{
+	fill:#DFCF51;
+}
+.hand  circle{
+	fill: none;
+}
+
+.a:hover .hand path, .a.hover .hand path{
+	fill: #DFCF51;
+}
+.a:hover .hand circle, .a.hover .hand circle{
+	fill: #FFF;
+}
+
+.a:active .hand path, .a.active .hand path{
+	fill: #000;
+}
+.a:active .hand circle, .a.active .hand circle{
+	fill: #FFF;
+}
+
+.a:active, .a.active{
+	box-shadow: inset 0 0 80px rgba(0,0,0,0.75);
+}
+
+
+.hand{
+	display:inline-block;	
+	width: 100px;
+	height: 100px;
+}
+
+.unselectable{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;	
+}
+#apDiv2 {
+	position: relative;
+	display: inline-block;
+
+	width: 107px;
+	height: 72px;
+
+}
+#buttons {	
+	position: relative;
+	display: inline-block;
+	width: 114px;
+	height: 71px;
+	margin: 10px 5px 0 10px;
+
+}
+
+#history{
+
+	
+	width: 200px;
+	height: 280px;
+	margin: 0px;
+	z-index: 0;	
+	
+	
+	
+	overflow:auto;
+	
+}
+
+#graph {
+	
+	
+	width: 500px;
+	height: 280px;
+	margin: 0px;
+	z-index: 0;
+	
+	
+}
+
+#history, #graph{
+	position: relative;
+	display: inline-block;
+	vertical-align:bottom;
+}
+#ads{
+	display: inline-block;
+	
+	border: 2px inset gray;
+	
+	
+	margin: 20px;
+	
+	box-shadow: inset 0px 2px 7px black;
+	background-color: #CCC;
+}
+
+#graph svg>rect {
+	_fill: #CCC;
+}
+</style>
+</head>
+
+<body>
+
+
+<div id="bg_"></div>
+
+
+
+<div id="display">
+    <div id="displayBg">
+        <div id="displayShadow">8:88.888</div>
+        <div id="displayText">0.000</div>
+    </div>
+</div>
+
+<br>
+
+<div id="ads">
+    <br><br>
+    
+    <div id="history"><p>History</p></div>
+    <div id="graph"></div>
+
+</div>
+
+<div id="timer" class="unselectable">
+    <div id="leftPad" class="a">
+		<svg class="hand" version="1.1">
+		<circle cx="51" cy="51" r="48"/>
+        <path class="hand" d="M50,0C22.385,0,0,22.385,0,50c0,27.614,22.385,50,50,50c27.614,0,50-22.386,50-50C100,22.385,77.614,0,50,0z
+             M56.454,13.875c0-3.627,4.963-3.565,4.89-0.113l0.073,30.91c-1.825-0.51-3.362-0.64-4.963-0.75V13.875z M46.999,8.819
+            c0-3.627,4.962-3.566,4.89-0.114l0.072,35.326c-1.643-0.258-2.796-0.38-4.962-0.113V8.819z M37.753,11.237
+            c0-3.627,4.962-3.565,4.891-0.113l0.072,32.893c-1.896-0.011-2.899,0.194-4.962,0.898V11.237z M28.949,20.689
+            c0-3.627,4.963-3.565,4.891-0.113l0.072,25.522c-1.896-0.01-3.394,0.557-4.963,1.968V20.689z M40.234,71.014
+            c0,3.023,0,10.387,0,10.387c0,5.384-8.598,7.549-11.285-0.33c-2.173-6.375-1.896-8.05-2.064-10.881
+            c-0.761-12.83,0.854-19.784,13.604-21.623c2.323-0.335,13.412-0.5,16.528-0.5c5.95,0,8.371,1.79,5.829,7.944
+            c-1.802,4.366-5.521,2.735-6.392,2.748C42.208,58.978,40.234,67.344,40.234,71.014z M64.924,86.566
+            c-6.855,3.844-21.315,3.627-20.868-8.134c0.187-4.895,0.979-15.057,12.398-15.057c1.911,0,5.684,0.912,7.491,1.539
+            c3.275,1.137,4.347,3.408,7.717-1.539c2.258-3.314,8.451-10.695,12.39-10.111c4.456,0.659,2.141,4.672,1.548,5.781
+            C80.465,68.651,75.9,80.411,64.924,86.566z"/>
+        </svg>
+    </div>
+    <div id="rightPad" class="a">
+		<svg class="hand" version="1.1">
+		<circle cx="51" cy="51" r="48" fill="none"/>
+        <path class="hand" transform="translate(50,50) scale(-1,1) translate(-50,-50)" d="M50,0C22.385,0,0,22.385,0,50c0,27.614,22.385,50,50,50c27.614,0,50-22.386,50-50C100,22.385,77.614,0,50,0z
+             M56.454,13.875c0-3.627,4.963-3.565,4.89-0.113l0.073,30.91c-1.825-0.51-3.362-0.64-4.963-0.75V13.875z M46.999,8.819
+            c0-3.627,4.962-3.566,4.89-0.114l0.072,35.326c-1.643-0.258-2.796-0.38-4.962-0.113V8.819z M37.753,11.237
+            c0-3.627,4.962-3.565,4.891-0.113l0.072,32.893c-1.896-0.011-2.899,0.194-4.962,0.898V11.237z M28.949,20.689
+            c0-3.627,4.963-3.565,4.891-0.113l0.072,25.522c-1.896-0.01-3.394,0.557-4.963,1.968V20.689z M40.234,71.014
+            c0,3.023,0,10.387,0,10.387c0,5.384-8.598,7.549-11.285-0.33c-2.173-6.375-1.896-8.05-2.064-10.881
+            c-0.761-12.83,0.854-19.784,13.604-21.623c2.323-0.335,13.412-0.5,16.528-0.5c5.95,0,8.371,1.79,5.829,7.944
+            c-1.802,4.366-5.521,2.735-6.392,2.748C42.208,58.978,40.234,67.344,40.234,71.014z M64.924,86.566
+            c-6.855,3.844-21.315,3.627-20.868-8.134c0.187-4.895,0.979-15.057,12.398-15.057c1.911,0,5.684,0.912,7.491,1.539
+            c3.275,1.137,4.347,3.408,7.717-1.539c2.258-3.314,8.451-10.695,12.39-10.111c4.456,0.659,2.141,4.672,1.548,5.781
+            C80.465,68.651,75.9,80.411,64.924,86.566z"/>
+        </svg>
+    </div>
+
+
+
+    <div id="centerTimer">
+    
+        <div class="lcd">
+            <div>
+                <div>8:88.888</div>
+                <div id="lcdText">0.000</div>
+            </div>
+        </div>
+	
+        
+        <div id="buttons">
+            <div class="buttonbevel" id="power">P</div>
+            <div class="buttonbevel" id="reset">R</div>
+            <div class="buttonbevel" id="save">S</div>
+            <div class="buttonbevel" id="down">\/</div> 
+            
+            <div id="redLed" class="led red"></div>
+            <div id="greenLed" class="led green"></div>       
+        </div>
+        
+
+  </div>
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+/* JAVASCRIPT GOES HERE */
+
+var chart;
+
+$(document).ready(function() {
+  chart = new Highcharts.Chart({
+	chart: {
+		renderTo: 'graph',
+		zoomType: 'x',
+		defaultSeriesType: 'spline',
+	},
+	title: {
+		text: 'Solve Times'
+	},
+	xAxis: {
+		type: 'number',
+		_tickPixelInterval: 32,
+		tickInterval: 1,
+		maxZoom: 5
+	},
+	yAxis: {
+		_minPadding: 0.2,
+		_maxPadding: 0.2,
+		type:'datetime',
+		title: {
+			text: 'Time',
+			_margin: 30
+		},
+		
+		labels: {
+            formatter: function(){
+              var d = new Date(this.value);
+              return d.getMinutes() +':'+ d.getSeconds() +'.'+ d.getMilliseconds();
+            }
+        },
+		
+		_dateTimeLabelFormats:{
+			second: '%H:%M:%S',
+			minute: '%H:%M:%S',
+			hour: '%H:%M:%S',
+			day: '%H:%M:%S',
+			week: '%H:%M:%S',
+			month: '%H:%M:%S',
+			year: '%H:%M:%S'
+		}
+		
+	},
+	legend: {
+            enabled: false
+    },
+		
+	tooltip: {
+                enabled: true,
+                formatter: function() {
+                    return "<b>Solve "+this.x+" </b> <br>Time: "+msToTime(this.y);
+                }
+            },
+	plotOptions: {
+                spline: {
+                    dataLabels: {
+                        enabled: false,
+						formatter: function() {
+                    	return msToTime(this.y);
+                	}
+                    },
+                    enableMouseTracking: true
+                }
+            },
+	
+	series: [{
+		name: 'Solve',
+		data: []
+	}]
+	});
+});
+    
+
+Highcharts.theme = {
+   colors: ["#DDDF0D", "#7798BF", "#55BF3B", "#DF5353", "#aaeeee", "#ff0066", "#eeaaee",
+      "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
+   chart: {
+      backgroundColor: "transparent",
+      borderWidth: 0,
+      borderRadius: 15,
+      plotBackgroundColor: null,
+      plotShadow: false,
+      plotBorderWidth: 0
+   },
+   title: {
+      style: {
+         color: '#FFF',
+         font: '16px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif'
+      }
+   },
+   subtitle: {
+      style: {
+         color: '#DDD',
+         font: '12px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif'
+      }
+   },
+   xAxis: {
+      gridLineWidth: 0,
+      lineColor: '#999',
+      tickColor: '#999',
+      labels: {
+         style: {
+            color: '#999',
+            fontWeight: 'bold'
+         }
+      },
+      title: {
+         style: {
+            color: '#AAA',
+            font: 'bold 12px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif'
+         }
+      }
+   },
+   yAxis: {
+      alternateGridColor: null,
+      minorTickInterval: null,
+      gridLineColor: 'rgba(255, 255, 255, .1)',
+      lineWidth: 0,
+      tickWidth: 0,
+      labels: {
+         style: {
+            color: '#999',
+            fontWeight: 'bold'
+         }
+      },
+      title: {
+         style: {
+            color: '#AAA',
+            font: 'bold 12px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif'
+         }
+      }
+   },
+   legend: {
+      itemStyle: {
+         color: '#CCC'
+      },
+      itemHoverStyle: {
+         color: '#FFF'
+      },
+      itemHiddenStyle: {
+         color: '#333'
+      }
+   },
+   labels: {
+      style: {
+         color: '#CCC'
+      }
+   },
+   tooltip: {
+      backgroundColor: {
+         linearGradient: [0, 0, 0, 50],
+         stops: [
+            [0, 'rgba(96, 96, 96, .8)'],
+            [1, 'rgba(16, 16, 16, .8)']
+         ]
+      },
+      borderWidth: 0,
+      style: {
+         color: '#FFF'
+      }
+   },
+
+
+   plotOptions: {
+      line: {
+         dataLabels: {
+            color: '#CCC'
+         },
+         marker: {
+            lineColor: '#333'
+         }
+      },
+      spline: {
+         marker: {
+            lineColor: '#333'
+         }
+      },
+      scatter: {
+         marker: {
+            lineColor: '#333'
+         }
+      },
+      candlestick: {
+         lineColor: 'white'
+      }
+   },
+
+   toolbar: {
+      itemStyle: {
+         color: '#CCC'
+      }
+   },
+
+   navigation: {
+      buttonOptions: {
+         backgroundColor: {
+            linearGradient: [0, 0, 0, 20],
+            stops: [
+               [0.4, '#606060'],
+               [0.6, '#333333']
+            ]
+         },
+         borderColor: '#000000',
+         symbolStroke: '#C0C0C0',
+         hoverSymbolStroke: '#FFFFFF'
+      }
+   },
+
+   exporting: {
+      buttons: {
+         exportButton: {
+            symbolFill: '#55BE3B'
+         },
+         printButton: {
+            symbolFill: '#7797BE'
+         }
+      }
+   },
+
+   // scroll charts
+   rangeSelector: {
+      buttonTheme: {
+         fill: {
+            linearGradient: [0, 0, 0, 20],
+            stops: [
+               [0.4, '#888'],
+               [0.6, '#555']
+            ]
+         },
+         stroke: '#000000',
+         style: {
+            color: '#CCC',
+            fontWeight: 'bold'
+         },
+         states: {
+            hover: {
+               fill: {
+                  linearGradient: [0, 0, 0, 20],
+                  stops: [
+                     [0.4, '#BBB'],
+                     [0.6, '#888']
+                  ]
+               },
+               stroke: '#000000',
+               style: {
+                  color: 'white'
+               }
+            },
+            select: {
+               fill: {
+                  linearGradient: [0, 0, 0, 20],
+                  stops: [
+                     [0.1, '#000'],
+                     [0.3, '#333']
+                  ]
+               },
+               stroke: '#000000',
+               style: {
+                  color: 'yellow'
+               }
+            }
+         }
+      },
+      inputStyle: {
+         backgroundColor: '#333',
+         color: 'silver'
+      },
+      labelStyle: {
+         color: 'silver'
+      }
+   },
+
+   navigator: {
+      handles: {
+         backgroundColor: '#666',
+         borderColor: '#AAA'
+      },
+      outlineColor: '#CCC',
+      maskFill: 'rgba(16, 16, 16, 0.5)',
+      series: {
+         color: '#7798BF',
+         lineColor: '#A6C7ED'
+      }
+   },
+
+   scrollbar: {
+      barBackgroundColor: {
+            linearGradient: [0, 0, 0, 20],
+            stops: [
+               [0.4, '#888'],
+               [0.6, '#555']
+            ]
+         },
+      barBorderColor: '#CCC',
+      buttonArrowColor: '#CCC',
+      buttonBackgroundColor: {
+            linearGradient: [0, 0, 0, 20],
+            stops: [
+               [0.4, '#888'],
+               [0.6, '#555']
+            ]
+         },
+      buttonBorderColor: '#CCC',
+      rifleColor: '#FFF',
+      trackBackgroundColor: {
+         linearGradient: [0, 0, 0, 10],
+         stops: [
+            [0, '#000'],
+            [1, '#333']
+         ]
+      },
+      trackBorderColor: '#666'
+   },
+
+   // special colors for some of the demo examples
+   legendBackgroundColor: 'rgba(48, 48, 48, 0.8)',
+   legendBackgroundColorSolid: 'rgb(70, 70, 70)',
+   dataLabelsColor: '#444',
+   textColor: '#E0E0E0',
+   maskColor: 'rgba(255,255,255,0.3)'
+};
+
+// Apply the theme
+var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
+
+
+/*------------------------------------------------------------------*/
+
+
+var ClassArm = function(){
+	
+	this.on=false;
+	this.ready=false;
+	this.delay=570;
+	
+	this.onDown = new Function();
+	this.onUp = new Function();	
+	this.onStart = new Function();
+	this.onStop = new Function();
+	this.onReady = new Function();
+	this.onCancel = new Function();
+	
+	var t;
+	var justStopped=false;
+	var repeat=false;
+	var o=this;
+	
+	this.down=function(){
+		if(repeat) return;
+		repeat=true;
+		
+		o.onDown();
+		
+		if(o.on){
+			o.onStop();
+			o.on=false;
+			justStopped=true;
+		}else{
+			o.ready=false;
+			justStopped=false;
+			
+			t=setTimeout(function(){
+				o.ready=true;
+				o.onReady();
+			},o.delay);
+		}
+	}
+	
+	this.up=function(){
+		repeat=false;
+		o.onUp();
+		
+		if(justStopped==false){
+		
+			if(o.ready && o.on==false){
+				o.onStart();
+				o.on=true;
+				justStopped=false;
+			}
+		
+			else{
+				clearTimeout(t);
+				o.onCancel();	
+			}
+		
+		}
+		
+	}
+}
+
+
+
+
+var ClassTimer = function(){
+	var o=this;
+	this.running=false;
+	this.timeStart=0;
+	this.timeStop=0;
+		
+	this.start=function(){
+		if(o.running==false){
+			o.timeStart=new Date().getTime();
+			o.running=true;
+		}
+	}
+	
+	this.stop=function(){
+		if(o.running){
+			o.timeStop=new Date().getTime();
+			o.running=false;
+		}
+	}
+	
+	this.reset=function(){
+		o.timeStart=0;
+		o.timeStop=0;
+	}
+	
+	this.getTime=function(){
+		if(o.timeStart>0 && o.timeStop>0){
+			return o.timeStop-o.timeStart;
+		}
+		else if(o.timeStart>0){
+			return new Date().getTime()-o.timeStart;
+		}
+		else{
+			return 0;
+		}
+	}
+}
+
+
+var Stopwatch = function(){
+	
+	this.max;
+	this.interval=33;
+	this.running=false;
+	
+	this.onStart = new Function();
+	this.onUpdate = new Function();
+	this.onStop = new Function();
+	this.onReset = new Function();
+	
+	var tUpdater;
+	var tMax;
+	var Timer = new ClassTimer();
+	var o=this;	
+	
+	this.start=function(){
+		Timer.start();
+		o.running=true;
+		
+		tUpdater=setInterval(update,o.interval);
+		if(o.max>0) tMax=setTimeout(o.reset,o.max);
+		o.onStart();
+	}
+	this.stop=function(){
+		Timer.stop();
+		o.running=false;
+		
+		clearInterval(tUpdater);
+		clearTimeout(tMax);
+		update();
+		o.onStop();
+	}
+	this.reset=function(){
+		Timer.reset();
+		o.running=false;
+		
+		clearInterval(tUpdater);
+		clearTimeout(tMax);
+		update();
+		o.onReset();
+	}
+	
+	this.getTime=function(){
+		return msToTime(Timer.getTime());
+	}
+	
+	this.getMilliseconds=function(){
+		return Timer.getTime();
+	}
+	
+	function update(){
+		var x=o.getTime();
+		o.onUpdate(x);	
+	}
+		
+	function msToTime(milliseconds){
+		function padDigits(digits,num){
+			num=num.toString();
+			while(num.length<digits){
+				num='0'+num;
+			}
+			return(num);
+		}
+	
+		var x=milliseconds;
+		var ms = (x%1000)<<0;	
+		var s = ((x/1000) %60)<<0;
+		var m = ((x/1000/60) %60)<<0;
+		var h = ((x/1000/60/60) %24)<<0;
+		
+		ms = padDigits(3,ms);
+		s = (m>0)?(padDigits(m>0?2:0,s)+"."):(s+"."); 
+		m = (m>0)?(padDigits((h>0)?2:0,m)+":"):("");
+		h = (h>0)?(padDigits(0,h)+":"):("");
+		
+		return(h+m+s+ms);
+	}
+}
+
+
+function msToTime(milliseconds){
+	function padDigits(digits,num){
+		num=num.toString();
+		while(num.length<digits){
+			num='0'+num;
+		}
+		return(num);
+	}
+
+	var x=milliseconds;
+	var ms = (x%1000)<<0;	
+	var s = ((x/1000) %60)<<0;
+	var m = ((x/1000/60) %60)<<0;
+	var h = ((x/1000/60/60) %24)<<0;
+	
+	ms = padDigits(3,ms);
+	s = (m>0)?(padDigits(m>0?2:0,s)+"."):(s+"."); 
+	m = (m>0)?(padDigits((h>0)?2:0,m)+":"):("");
+	h = (h>0)?(padDigits(0,h)+":"):("");
+	
+	return(h+m+s+ms);
+}
+
+window.onload=function(){
+		
+	solve=0;
+	cancels=0;
+		
+	leftPad=document.getElementById('leftPad');
+	rightPad=document.getElementById('rightPad');
+	lcd=document.getElementById('lcdText');
+	display=document.getElementById('displayText');
+	redLed=document.getElementById('redLed');
+	greenLed=document.getElementById('greenLed');
+	history=document.getElementById('history');	
+	
+	
+	
+	Cronometro = new Stopwatch();
+	Cronometro.interval = 40;
+	Cronometro.max = 1*60*1000; //15 minutes
+	
+	Cronometro.onStart=function(){
+		redLed.classList.add('on');
+		greenLed.classList.add('on');
+	}
+	
+	Cronometro.onStop=function(){
+		redLed.classList.remove('on');
+		greenLed.classList.remove('on');
+	}
+	
+	Cronometro.onUpdate=function(x){
+		
+		lcd.innerHTML=x;
+		display.innerHTML=x;
+		
+		if(Cronometro.running){
+			redLed.classList.toggle('on'); //blink
+			greenLed.classList.toggle('on'); //blink
+		}else{
+			redLed.classList.remove('on');
+			greenLed.classList.remove('on');
+		}
+	}
+	
+	
+	
+	
+	var Arm = new ClassArm();
+	Arm.delay=500;
+	
+	Arm.onStart=function(){
+		Cronometro.start();
+	}
+	Arm.onStop=function(){
+		Cronometro.stop();
+		
+		//if( confirm(" Your time was "+Cronometro.getTime()+". Discard it or Save? ") ){
+			history.innerHTML+= "<br>" + Cronometro.getTime();
+			
+			if(chart){
+				chart.series[0].addPoint({
+					y:Cronometro.getMilliseconds(),
+					x:++solve
+				});
+			}
+		//}
+	}
+	
+	Arm.onReady=function(){
+		Cronometro.reset();
+		redLed.classList.add('on');
+		greenLed.classList.add('on');
+	}
+	
+	Arm.onCancel=function(){
+		//redLed.classList.remove('on');
+				
+		cancels++;
+		if(cancels>4){
+			cancels=0;
+			alert("Hold until the green light lights up, and release to start the timer. \
+			       \n Tap again to stop.");	
+		}
+	}
+	
+	Arm.onDown=function(){
+		redLed.classList.add('on');
+		leftPad.classList.add('active');
+		rightPad.classList.add('active');
+	}
+	
+	Arm.onUp=function(){
+		redLed.classList.remove('on');
+		leftPad.classList.remove('active');
+		rightPad.classList.remove('active');
+	}
+	
+	
+	
+	
+	addEvent(leftPad,"mousedown",Arm.down);
+	addEvent(leftPad,"mouseup",Arm.up);
+	
+	addEvent(rightPad,"mousedown",Arm.down);
+	addEvent(rightPad,"mouseup",Arm.up);
+	
+	addEvent(document.body,"keydown",function(event){
+		hotAction(event,'SPACE',Arm.down,true);
+	});
+	
+	addEvent(document.body,"keyup",function(event){
+		hotAction(event,'SPACE',Arm.up,true);
+	
+		hotAction(event,'R',Cronometro.reset,true);
+	
+		hotAction(event,'S',function(){
+			Cronometro.start();
+			Arm.on=true;
+			Arm.ready=true;
+		},true);
+	});
+	
+	addEvent(leftPad,"touchdown",Arm.down);
+	addEvent(rightPad,"touchdown",Arm.down);
+	addEvent(leftPad,"touchup",Arm.up);
+	addEvent(rightPad,"touchup",Arm.up);
+	
+	/*
+	for(;solve<10;solve++){
+		setTimeout(" chart.series[0].addPoint({ y:1234*"+solve+", x:"+solve+" })", 1000*solve);
+	}
+	*/
+	
+	//chart.series[0].addPoint({ y:153150, x:(++solve) });
+	//chart.series[0].addPoint({ y:143048, x:(++solve) });
+};
+
+
+
+</script>
+  
+</body>
+</html>

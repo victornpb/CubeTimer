@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Untitled Document</title>
+<link href="display.css" rel="stylesheet"/>
+<link href="timer.css" rel="stylesheet"/>
+<style type="text/css">
+window,body{
+	margin 10px;
+	font-family:Arial, Helvetica, sans-serif;
+}
+
+@font-face{ 
+	font-family: "DSDIGI";
+	src: url('http://fontsforweb.com/public/fonts/1091/DSDIGI.eot');
+	src: local("DS-Digital"), url('http://fontsforweb.com/public/fonts/1091/DSDIGI.ttf') format("truetype");
+}
+
+.fontsforweb_fontid_1091 {
+	font-family: "DSDIGI";
+}
+  
+@font-face{ 
+	font-family: "LCD2U";
+	src: url('http://fontsforweb.com/public/fonts/525/LCD2U.eot');
+	src: local("LCD2 Ultra"), url('http://fontsforweb.com/public/fonts/525/LCD2U.ttf') format("truetype");
+}
+
+.fontsforweb_fontid_525 {
+	font-family: "LCD2U";
+}
+
+.a{
+	box-shadow:
+	0px -2px 0px rgba(255,255,255,0.25),
+	inset 0px 3px 2px rgba(0,0,0,0.25),
+	inset 0px -3px 2px rgba(0,0,0,1);
+	
+	border:1px solid #86A0B1;
+	box-shadow: inset 0px -50px 100px rgba(0,0,0,0.25);
+}
+
+
+.flip-h {
+	-moz-transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+	-o-transform: scaleX(-1);
+	transform: scaleX(-1);
+	-ms-filter: fliph; /*IE*/
+	filter: fliph; /*IE*/
+}
+.flip-v {
+    -moz-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    transform: scaleY(-1);
+    -ms-filter: flipv; /*IE*/
+    filter: flipv; /*IE*/
+}
+
+.led{
+	width: 10px;
+	height: 10px;
+
+	border-radius: 12px;
+	border: 2px outset rgba(0,0,0,0.5);
+	box-shadow: 
+				inset 0px 3px 6px rgba(0,0,0,0.5),
+				inset 0px 0px 0px rgba(255,255,255,0.5),
+				0px -1px 1px rgba(255,255,255,0.5),
+				0px 1px 1px rgba(0,0,0,0.5);
+}
+
+.buttonbevel{
+	box-shadow: inset 0px 6px 2px rgba(255,255,255,0.2),/*top shadow*/
+				inset 0px -6px 8px rgba(0,0,0,0.5),		/*bottom shadow*/
+				0px -2px 1px rgba(255,255,255,0.5),/*top shadow*/
+				0px 2px 1px rgba(0,0,0,0.5);
+
+	border-radius: 100%;
+	text-align:center;
+	
+	color: #C1BFB4;
+}
+
+
+svg path{
+	fill:#DFCF51;
+}
+svg circle{
+	fill: none;
+}
+
+.a:hover svg path{
+	fill: #DFCF51;
+}
+.a:hover svg circle{
+	fill: #FFF;
+}
+
+.a:active svg path{
+	fill: #000;
+}
+.a:active svg circle{
+	fill: #DFCF51;
+}
+
+.a:active{
+	box-shadow: inset 0 0 80px rgba(0,0,0,0.5);
+}
+
+
+svg{
+	display:inline-block;	
+	width: 100px;
+	height: 100px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="display">
+	<div id="displayBg">
+        <div id="displayShadow">8:88.888</div>
+        <div id="displayText">0.000</div>
+	</div>
+</div>
+
+
+
+<div id="timer">
+    <div id="leftPad" class="a">
+		<svg version="1.1">
+		<circle cx="51" cy="51" r="48"/>
+        <path class="hand" d="M50,0C22.385,0,0,22.385,0,50c0,27.614,22.385,50,50,50c27.614,0,50-22.386,50-50C100,22.385,77.614,0,50,0z
+             M56.454,13.875c0-3.627,4.963-3.565,4.89-0.113l0.073,30.91c-1.825-0.51-3.362-0.64-4.963-0.75V13.875z M46.999,8.819
+            c0-3.627,4.962-3.566,4.89-0.114l0.072,35.326c-1.643-0.258-2.796-0.38-4.962-0.113V8.819z M37.753,11.237
+            c0-3.627,4.962-3.565,4.891-0.113l0.072,32.893c-1.896-0.011-2.899,0.194-4.962,0.898V11.237z M28.949,20.689
+            c0-3.627,4.963-3.565,4.891-0.113l0.072,25.522c-1.896-0.01-3.394,0.557-4.963,1.968V20.689z M40.234,71.014
+            c0,3.023,0,10.387,0,10.387c0,5.384-8.598,7.549-11.285-0.33c-2.173-6.375-1.896-8.05-2.064-10.881
+            c-0.761-12.83,0.854-19.784,13.604-21.623c2.323-0.335,13.412-0.5,16.528-0.5c5.95,0,8.371,1.79,5.829,7.944
+            c-1.802,4.366-5.521,2.735-6.392,2.748C42.208,58.978,40.234,67.344,40.234,71.014z M64.924,86.566
+            c-6.855,3.844-21.315,3.627-20.868-8.134c0.187-4.895,0.979-15.057,12.398-15.057c1.911,0,5.684,0.912,7.491,1.539
+            c3.275,1.137,4.347,3.408,7.717-1.539c2.258-3.314,8.451-10.695,12.39-10.111c4.456,0.659,2.141,4.672,1.548,5.781
+            C80.465,68.651,75.9,80.411,64.924,86.566z"/>
+        </svg>
+    </div>
+    <div id="rightPad" class="a">
+		<svg version="1.1">
+		<circle cx="51" cy="51" r="48"/>
+        <path class="hand" transform="translate(50,50) scale(-1,1) translate(-50,-50)" d="M50,0C22.385,0,0,22.385,0,50c0,27.614,22.385,50,50,50c27.614,0,50-22.386,50-50C100,22.385,77.614,0,50,0z
+             M56.454,13.875c0-3.627,4.963-3.565,4.89-0.113l0.073,30.91c-1.825-0.51-3.362-0.64-4.963-0.75V13.875z M46.999,8.819
+            c0-3.627,4.962-3.566,4.89-0.114l0.072,35.326c-1.643-0.258-2.796-0.38-4.962-0.113V8.819z M37.753,11.237
+            c0-3.627,4.962-3.565,4.891-0.113l0.072,32.893c-1.896-0.011-2.899,0.194-4.962,0.898V11.237z M28.949,20.689
+            c0-3.627,4.963-3.565,4.891-0.113l0.072,25.522c-1.896-0.01-3.394,0.557-4.963,1.968V20.689z M40.234,71.014
+            c0,3.023,0,10.387,0,10.387c0,5.384-8.598,7.549-11.285-0.33c-2.173-6.375-1.896-8.05-2.064-10.881
+            c-0.761-12.83,0.854-19.784,13.604-21.623c2.323-0.335,13.412-0.5,16.528-0.5c5.95,0,8.371,1.79,5.829,7.944
+            c-1.802,4.366-5.521,2.735-6.392,2.748C42.208,58.978,40.234,67.344,40.234,71.014z M64.924,86.566
+            c-6.855,3.844-21.315,3.627-20.868-8.134c0.187-4.895,0.979-15.057,12.398-15.057c1.911,0,5.684,0.912,7.491,1.539
+            c3.275,1.137,4.347,3.408,7.717-1.539c2.258-3.314,8.451-10.695,12.39-10.111c4.456,0.659,2.141,4.672,1.548,5.781
+            C80.465,68.651,75.9,80.411,64.924,86.566z"/>
+        </svg>
+    </div>
+
+
+
+    <div id="centerTimer">
+        
+        <div class="lcd">
+            <div>
+                <div>8:88.888</div>
+                <div id="lcdText">0.000</div>
+            </div>
+        </div>
+
+        
+        <div class="buttonbevel" id="power">P</div>
+        <div class="buttonbevel" id="reset">R</div>
+        <div class="buttonbevel" id="save">S</div>
+        <div id="redLed" class="led"></div>
+        <div id="greenLed" class="led"></div>
+        <div class="buttonbevel" id="down">\/</div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+/* JAVASCRIPT GOES HERE */
+window.onload=function(){
+		
+};
+</script>
+  
+</body>
+</html>

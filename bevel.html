@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Untitled Document</title>
+<style type="text/css">
+
+/* CSS GOES HERE */
+
+body{
+	background-color:#999;
+}
+
+
+
+#apDiv1 {
+	position: absolute;
+	left: 261px;
+	top: 257px;
+	z-index: 1;
+	background-color: #090;
+}
+
+.led{
+	width: 12px;
+	height: 12px;
+
+	border-radius: 12px;
+	border: 2px outset rgba(0,0,0,0.5);
+	box-shadow: 
+				inset 0px 3px 6px rgba(0,0,0,0.5),
+				inset 0px 0px 0px rgba(255,255,255,0.5),
+				0px -1px 1px rgba(255,255,255,0.5),
+				0px 1px 1px rgba(0,0,0,0.5);
+}
+
+.bevel{
+	box-shadow: inset 0px 6px 8px rgba(255,255,255,0.5),/*top shadow*/
+				inset 6px 0px 8px rgba(0,0,0,0.25),	/*left shadow*/
+				inset -6px 0px 8px rgba(0,0,0,0.25),	/*right shadow*/
+				inset 0px -6px 8px rgba(0,0,0,0.5);		/*bottom shadow*/
+}
+
+.bevel2{
+	box-shadow: inset 0px 6px 8px rgba(255,255,255,0.5),/*top shadow*/
+				inset 6px 0px 8px rgba(255,255,255,0.25),	/*left shadow*/
+				inset -6px 0px 8px rgba(0,0,0,0.25),	/*right shadow*/
+				inset 0px -6px 8px rgba(0,0,0,0.5);		/*bottom shadow*/
+}
+
+.bevel2{
+	box-shadow: inset 0px 6px 8px rgba(255,255,255,0.5),/*top shadow*/
+				inset 0px -6px 8px rgba(0,0,0,0.5);		/*bottom shadow*/
+}
+
+.outerbevel{
+	box-shadow: 0px -6px 8px rgba(255,255,255,0.5),/*top shadow*/
+				0px 6px 8px rgba(0,0,0,0.5);		/*bottom shadow*/
+}
+
+#apDiv2 {
+	position: absolute;
+	left: 133px;
+	top: 341px;
+	width: 151px;
+	height: 142px;
+	z-index: 2;
+	background-color: #336699;
+}
+#apDiv3 {
+	position: absolute;
+	left: 383px;
+	top: 343px;
+	width: 166px;
+	height: 141px;
+	z-index: 3;
+	background-color: #336699;
+}
+</style></head>
+
+<body>
+
+
+
+
+
+<div id="apDiv1" class="led"></div>
+<div id="apDiv2" class="bevel"></div>
+
+
+<div class="bevel2" id="apDiv3"></div>
+<script type="text/javascript">
+/* JAVASCRIPT GOES HERE */
+window.onload=function(){
+		x=setInterval(function(){
+				
+			var led=document.getElementById('apDiv1')	
+			
+			if(led.style.backgroundColor==''){
+				led.style.backgroundColor='#0F0';
+			}else{
+				led.style.backgroundColor='';
+			}
+		
+		},250);
+};
+</script>
+  
+</body>
+</html>
